@@ -22,19 +22,68 @@ extern CharCode charCodes[];
 /***************************************************************/
 
 void skipBlank() {
-  // TODO
+  while ((currentChar != EOF) && (charCodes[currentChar] == CHAR_SPACE)){
+    readChar();
+  }
 }
 
 void skipComment() {
-  // TODO
+  int st = 0;
+  while((currentChar != EOF) && (st <2)){
+    switch (charCodes[currentChar]){
+    case CHAR_TIMES:
+      st = 1;
+      break;
+    case CHAR_RPAR:
+      if(st == 1) st == 2;
+      else st = 0;
+      break;
+    default: 
+      st = 0;
+    }
+    readChar();
+  }
+  if(st != 2)
+    error(ERR_ENDOFCOMMENT, lineNo, colNo);
 }
 
 Token* readIdentKeyword(void) {
-  // TODO
+  Token *token = makeToken(TK_NONE, lineNo, colNo);
+  int count = 1;
+
+  token->string[0] = (char)currentChar;
+  readChar();
+  while((currentChar != EOF) && 
+	((charCodes[currentChar] == CHAR_LETTER) || (charCodes[currentChar] == CHAR_DIGIT))){
+    if(count <= MAX_IDENT_LEN)
+      token->string[count++] = (char) currentChar;
+    readChar();
+  }
+  if(count > MAX_IDENT_LEN){
+    error(ERR_IDENTTOOLONG, token->lineNo, token->colNo);
+    return token;
+  }
+ 
+  token->string[count] = '\0';
+  token->tokenType = checkKeyword(token->string);
+
+  if(token->tokenType == TK_NONE)
+    token->tokenType = TK_IDENT;
+  return token;
 }
 
 Token* readNumber(void) {
-  // TODO
+  Token *token = makeToken(TK_NUMBER, lineNo, colNo);
+  int count = 0;
+
+  while((currentChar != EOF) && (charCodes[currentChar] == CHAR_DIGIT)){
+    token->string[count++] == (char)currentChar;
+    readChar();
+  }
+
+  token->string[count] = '\0';
+  token->value = atoi(token->string);
+  return token;
 }
 
 Token* readConstChar(void) {
