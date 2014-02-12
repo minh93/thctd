@@ -35,7 +35,7 @@ void skipComment() {
       st = 1;
       break;
     case CHAR_RPAR:
-      if(st == 1) st == 2;
+      if(st == 1) st = 2;
       else st = 0;
       break;
     default: 
@@ -77,7 +77,7 @@ Token* readNumber(void) {
   int count = 0;
 
   while((currentChar != EOF) && (charCodes[currentChar] == CHAR_DIGIT)){
-    token->string[count++] == (char)currentChar;
+    token->string[count++] = (char)currentChar;
     readChar();
   }
 
@@ -87,7 +87,27 @@ Token* readNumber(void) {
 }
 
 Token* readConstChar(void) {
-  // TODO
+  Token *token = makeToken(TK_CHAR, lineNo, colNo);
+  readChar();
+  int i = 0;
+  char *str = token->string;
+  int end_const = 0;
+  while(i < MAX_IDENT_LEN && !end_const){
+    if(charCodes[currentChar] == CHAR_SINGLEQUOTE){
+      readChar();
+      if(charCodes[currentChar] == CHAR_SINGLEQUOTE){
+	str[i++] = currentChar;
+	readChar();
+      }else{
+	end_const = 1;
+      }
+    }else{
+      str[i++] = currentChar;
+      readChar();
+    }
+  }
+  str[i] = '\0';
+  return token;
 }
 
 Token* getToken(void) {
