@@ -12,7 +12,8 @@
 
 typedef struct word {
 char *str;              
-int freq;               
+int freq; 
+char *lineAppear;
 struct word *pNext;     
 } Word;
 
@@ -31,10 +32,9 @@ int isUnusual(char *word);
 //============================================
 
 Word *pStart = NULL;                                /* Pointer to first word counter in the list */
-
 int totalcount = 0;                                 /* Total amount of words */
 int uniquecount = 0;                                /* Amount of unique words */
-
+int currLine = 0;
 
 
 // ===========================================
@@ -72,7 +72,7 @@ int main () {
     printf("\nSUMMARY:\n\n");
     printf("   %d words\n", totalcount); 
     printf("   %d unique words\n", uniquecount); 
-
+    
     pCounter = pStart;
     while(pCounter != NULL)
     {
@@ -80,7 +80,7 @@ int main () {
         pCounter = pCounter->pNext;
     }
     printf("\n");
-
+    printf("Current line: %d",currLine);
 
     /* Free the allocated  memory*/
     pCounter = pStart;
@@ -93,7 +93,6 @@ int main () {
     }
 
     fclose(fp);
-    
     return 0;
 }
 
@@ -152,12 +151,11 @@ Word* createWordCounter(char *word)
 
 int getNextWord(FILE *fp, char *buf, int bufsize) {
     char *p = buf;
-    char c;
-    
+    char c;    
     do {
         c = fgetc(fp);
-        if (c == EOF) 
-            return 0;
+        if (c == EOF)
+	  return 0;	  
         } while (!isalpha(c));
 
     do {
