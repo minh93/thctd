@@ -132,3 +132,4 @@
 27-15:TK_IDENT(WRITEC)
 27-21:SB_LPAR
 27-22:Invalid symbol!
+ 
