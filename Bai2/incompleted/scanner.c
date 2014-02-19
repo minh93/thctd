@@ -88,7 +88,7 @@ Token* readNumber(void) {
 
 Token* readConstChar(void) {
   Token *token = makeToken(TK_CHAR, lineNo, colNo);
-  //readChar();
+  readChar();
   int i = 0;
   char *str = token->string;
   int end_const = 0;
@@ -96,10 +96,10 @@ Token* readConstChar(void) {
     if(charCodes[currentChar] == CHAR_SINGLEQUOTE){
       readChar();
       if(charCodes[currentChar] == CHAR_SINGLEQUOTE){
-	str[i++] = currentChar;
-	readChar();
+	    str[i++] = currentChar;
+	    readChar();
       }else{
-	end_const = 1;
+	    end_const = 1;
       }
     }else{
       str[i++] = currentChar;
@@ -112,23 +112,17 @@ Token* readConstChar(void) {
 
 Token * readString(void){
   Token *token = makeToken(TK_STRING, lineNo, colNo);
-  readChar();
   int i = 0;
   char *str = token->string;
   int end_const = 0;
   while(i < MAX_IDENT_LEN && !end_const){
     if(charCodes[currentChar] == CHAR_QUOTE){
+      end_const = 1;
       readChar();
-      if(charCodes[currentChar] == CHAR_QUOTE){
-	str[i++] = currentChar;
-	readChar();
       }else{
-	end_const = 1;
-      }
-    }else{
-      str[i++] = currentChar;
+      str[i++] = (char)currentChar;
       readChar();
-    }
+      }
   }
   str[i] = '\0';
   return token;
@@ -215,8 +209,8 @@ Token* getToken(void) {
     } else return makeToken(SB_COLON, ln, cn);
   case CHAR_SINGLEQUOTE: 
     return readConstChar();
-  case CHAR_QUOTE:
-    return readString();
+  //case CHAR_QUOTE:
+    //return readString();
   case CHAR_LPAR:
     ln = lineNo;
     cn = colNo;
@@ -260,7 +254,7 @@ void printToken(Token *token) {
   case TK_NUMBER: printf("TK_NUMBER(%s)\n", token->string); break;
   case TK_CHAR: printf("TK_CHAR(\'%s\')\n", token->string); break;
   case TK_EOF: printf("TK_EOF\n"); break;
-  case TK_STRING: printf("TK_STRING(\'%s\')\n",token->string); break;
+  case TK_STRING: printf("TK_STRING(\"%s\")\n",token->string); break;
 
   case KW_PROGRAM: printf("KW_PROGRAM\n"); break;
   case KW_CONST: printf("KW_CONST\n"); break;
