@@ -88,6 +88,30 @@ Token* readNumber(void) {
 
 Token* readConstChar(void) {
   Token *token = makeToken(TK_CHAR, lineNo, colNo);
+  //readChar();
+  int i = 0;
+  char *str = token->string;
+  int end_const = 0;
+  while(i < MAX_IDENT_LEN && !end_const){
+    if(charCodes[currentChar] == CHAR_SINGLEQUOTE){
+      readChar();
+      if(charCodes[currentChar] == CHAR_SINGLEQUOTE){
+	str[i++] = currentChar;
+	readChar();
+      }else{
+	end_const = 1;
+      }
+    }else{
+      str[i++] = currentChar;
+      readChar();
+    }
+  }
+  str[i] = '\0';
+  return token;
+}
+
+Token * readString(void){
+  Token *token = makeToken(TK_STRING, lineNo, colNo);
   readChar();
   int i = 0;
   char *str = token->string;
@@ -109,6 +133,7 @@ Token* readConstChar(void) {
   str[i] = '\0';
   return token;
 }
+
 
 Token* getToken(void) {
   Token *token;
@@ -194,10 +219,8 @@ Token* getToken(void) {
     ln = lineNo;
     cn = colNo;
     readChar();
-
     if (currentChar == EOF) 
       return makeToken(SB_LPAR, ln, cn);
-
     switch (charCodes[currentChar]) {
     case CHAR_PERIOD:
       readChar();
