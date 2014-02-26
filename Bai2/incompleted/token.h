@@ -8,14 +8,15 @@
 #define __TOKEN_H__
 
 #define MAX_IDENT_LEN 15
-#define KEYWORDS_COUNT 20
+#define MAX_STR_LEN 80
+#define KEYWORDS_COUNT 22
 
 typedef enum {
-  TK_NONE, TK_IDENT, TK_NUMBER, TK_CHAR, TK_EOF, TK_STRING,
+  TK_NONE, TK_IDENT, TK_INT, TK_FLOAT, TK_CHAR, TK_STR, TK_EOF,
 
   KW_PROGRAM, KW_CONST, KW_TYPE, KW_VAR,
-  KW_INTEGER, KW_CHAR, KW_ARRAY, KW_OF, 
-  KW_FUNCTION, KW_PROCEDURE,
+  KW_INTEGER, KW_CHAR, KW_FLOAT, KW_STR, 
+  KW_ARRAY, KW_OF, KW_FUNCTION, KW_PROCEDURE,
   KW_BEGIN, KW_END, KW_CALL,
   KW_IF, KW_THEN, KW_ELSE,
   KW_WHILE, KW_DO, KW_FOR, KW_TO,
@@ -30,11 +31,12 @@ typedef struct {
   char string[MAX_IDENT_LEN + 1];
   int lineNo, colNo;
   TokenType tokenType;
-  int value;
+  float value;
+  char strvalue[MAX_STR_LEN +1];
 } Token;
 
 TokenType checkKeyword(char *string);
 Token* makeToken(TokenType tokenType, int lineNo, int colNo);
-
+char *tokenToString(TokenType tokenType);
 
 #endif
