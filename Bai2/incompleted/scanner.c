@@ -148,7 +148,8 @@ Token* readString(void){
   readChar();
   while (currentChar != EOF && charCodes[currentChar] != CHAR_DOUBLEQUOTE){
     if (count < MAX_STR_LEN){
-      if (charCodes[currentChar]==CHAR_SINGLE) {
+      if (currentChar=='\n') error(ERR_INVALIDSTRING, token->lineNo, token->colNo);
+      else if (charCodes[currentChar]==CHAR_SINGLE) {
 	readChar();
 	if (currentChar=='\n') ;
 	else {currentChar=checkSingle(currentChar);
