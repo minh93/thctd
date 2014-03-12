@@ -440,7 +440,7 @@ void compileWhileSt(void) {
   eat(KW_DO);
   compileStatement();
   //chu y check lai cho nay
-  assert("While statement pased ....");
+  assert("While statement parsed ....");
 }
 
 void compileForSt(void) {
