@@ -50,6 +50,10 @@ typedef enum {
 #define ERM_INVALIDVARDECL "Invalid variable declaration!"
 #define ERM_INVALIDSUBDECL "Invalid subroutine declaration!"
 #define ERM_INVALIDNUMBER "Invalid number!"
+<<<<<<< HEAD
+=======
+
+>>>>>>> c7f30f0d74a9f8d97f45e5c26ed82dedd50fa558
 void error(ErrorCode err, int lineNo, int colNo);
 void missingToken(TokenType tokenType, int lineNo, int colNo);
 void assert(char *msg);

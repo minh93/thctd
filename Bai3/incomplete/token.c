@@ -106,6 +106,8 @@ char *tokenToString(TokenType tokenType) {
   case SB_RPAR: return "\')\'";
   case SB_LSEL: return "\'(.\'";
   case SB_RSEL: return "\'.)\'";
+  case SB_MOD: return "\'\%\'";
+  case SB_DOUBLEQUOTE: return "\'\"\'";
   default: return "";
   }
 }

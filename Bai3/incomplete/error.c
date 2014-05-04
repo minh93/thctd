@@ -65,8 +65,12 @@ void error(ErrorCode err, int lineNo, int colNo) {
     printf("%d-%d:%s\n", lineNo, colNo, ERM_INVALIDSUBDECL);
     break;
   case ERR_INVALIDNUMBER:
+<<<<<<< HEAD
     printf("%d-%d:%s\n",lineNo,colNo,ERM_INVALIDNUMBER );
     break;
+=======
+    printf("%d-%d:%s\n", lineNo, colNo, ERM_INVALIDNUMBER);
+>>>>>>> c7f30f0d74a9f8d97f45e5c26ed82dedd50fa558
   }
   exit(0);
 }

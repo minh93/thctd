@@ -27,7 +27,11 @@ typedef enum {
   CHAR_LPAR,
   CHAR_RPAR,
   CHAR_MOD,
+<<<<<<< HEAD
   CHAR_QUOTE,
+=======
+  CHAR_DOUBLEQUOTE,
+>>>>>>> c7f30f0d74a9f8d97f45e5c26ed82dedd50fa558
   CHAR_BACKSLASH,
   CHAR_UNKNOWN
 } CharCode;
