@@ -5,7 +5,8 @@
  */
 
 #include <stdlib.h>
-
+#include <stdio.h>
+#include  "token.h"
 #include "reader.h"
 #include "scanner.h"
 #include "parser.h"
@@ -89,7 +90,7 @@ void compileConstDecls(void) {
       compileConstDecls();
     }
   //else 
-  //error(ERR_INVALIDCONSTDECL, lookAhead->lineNo, lookAhead->colNo);
+  error(ERR_INVALIDCONSTDECL, lookAhead->lineNo, lookAhead->colNo);
 }
 
 void compileConstDecl(void) {
