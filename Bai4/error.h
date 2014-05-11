@@ -9,46 +9,64 @@
 #include "token.h"
 
 typedef enum {
-  ERR_ENDOFCOMMENT,
-  ERR_IDENTTOOLONG,
-  ERR_INVALIDCHARCONSTANT,
-  ERR_INVALIDSYMBOL,
-  ERR_INVALIDCONSTANT,
-  ERR_INVALIDTYPE,
-  ERR_INVALIDBASICTYPE,
-  ERR_INVALIDPARAM,
-  ERR_INVALIDSTATEMENT,
-  ERR_INVALIDARGUMENTS,
-  ERR_INVALIDCOMPARATOR,
-  ERR_INVALIDEXPRESSION,
-  ERR_INVALIDTERM,
-  ERR_INVALIDFACTOR,
-  ERR_INVALIDCONSTDECL,
-  ERR_INVALIDTYPEDECL,
-  ERR_INVALIDVARDECL,
-  ERR_INVALIDSUBDECL,
-  ERR_INVALIDNUMBER,
+  ERR_END_OF_COMMENT,
+  ERR_IDENT_TOO_LONG,
+  ERR_INVALID_CONSTANT_CHAR,
+  ERR_INVALID_SYMBOL,
+  ERR_INVALID_IDENT,
+  ERR_INVALID_CONSTANT,
+  ERR_INVALID_TYPE,
+  ERR_INVALID_BASICTYPE,
+  ERR_INVALID_VARIABLE,
+  ERR_INVALID_FUNCTION,
+  ERR_INVALID_PROCEDURE,
+  ERR_INVALID_PARAMETER,
+  ERR_INVALID_STATEMENT,
+  ERR_INVALID_COMPARATOR,
+  ERR_INVALID_EXPRESSION,
+  ERR_INVALID_TERM,
+  ERR_INVALID_FACTOR,
+  ERR_INVALID_LVALUE,
+  ERR_INVALID_ARGUMENTS,
+  ERR_UNDECLARED_IDENT,
+  ERR_UNDECLARED_CONSTANT,
+  ERR_UNDECLARED_INT_CONSTANT,
+  ERR_UNDECLARED_TYPE,
+  ERR_UNDECLARED_VARIABLE,
+  ERR_UNDECLARED_FUNCTION,
+  ERR_UNDECLARED_PROCEDURE,
+  ERR_DUPLICATE_IDENT,
+  ERR_TYPE_INCONSISTENCY,
+  ERR_PARAMETERS_ARGUMENTS_INCONSISTENCY
 } ErrorCode;
 
 
-#define ERM_ENDOFCOMMENT "End of comment expected!"
-#define ERM_IDENTTOOLONG "Identification too long!"
-#define ERM_INVALIDCHARCONSTANT "Invalid const char!"
-#define ERM_INVALIDSYMBOL "Invalid symbol!"
-#define ERM_INVALIDCONSTANT "Invalid constant!"
-#define ERM_INVALIDTYPE "Invalid type!"
-#define ERM_INVALIDBASICTYPE "Invalid basic type!"
-#define ERM_INVALIDPARAM "Invalid parameter!"
-#define ERM_INVALIDSTATEMENT "Invalid statement!"
-#define ERM_INVALIDARGUMENTS "Invalid arguments!"
-#define ERM_INVALIDCOMPARATOR "Invalid comparator!"
-#define ERM_INVALIDEXPRESSION "Invalid expression!"
-#define ERM_INVALIDTERM "Invalid term!"
-#define ERM_INVALIDFACTOR "Invalid factor!"
-#define ERM_INVALIDCONSTDECL "Invalid constant declaration!"
-#define ERM_INVALIDTYPEDECL "Invalid type declaration!"
-#define ERM_INVALIDVARDECL "Invalid variable declaration!"
-#define ERM_INVALIDSUBDECL "Invalid subroutine declaration!"
+#define ERM_END_OF_COMMENT "End of comment expected!"
+#define ERM_IDENT_TOO_LONG "Identification too long!"
+#define ERM_INVALID_CHAR_CONSTANT "Invalid const char!"
+#define ERM_INVALID_SYMBOL "Invalid symbol!"
+#define ERM_INVALID_CONSTANT "Invalid constant!"
+#define ERM_INVALID_TYPE "Invalid type!"
+#define ERM_INVALID_BASIC_TYPE "Invalid basic type!"
+#define ERM_INVALID_PARAM "Invalid parameter!"
+#define ERM_INVALID_STATEMENT "Invalid statement!"
+#define ERM_INVALID_ARGUMENTS "Invalid arguments!"
+#define ERM_INVALID_COMPARATOR "Invalid comparator!"
+#define ERM_INVALID_EXPRESSION "Invalid expression!"
+#define ERR_INVALID_TERM "Invalid term"
+#define ERR_INVALID_FACTOR "Invalid factor"
+#define ERR_INVALID_LVALUE "Invalid LValue"
+#define ERR_INVALID_ARGUMENTS "Invalid arguments"
+#define ERR_UNDECLARED_IDENT "Undeclared ident"
+#define ERR_UNDECLARED_CONSTANT "Undeclared constant"
+#define ERR_UNDECLARED_INT_CONSTANT "Undeclared int constant"
+#define ERR_UNDECLARED_TYPE "Undeclared type"
+#define ERR_UNDECLARED_VARIABLE "Undeclared variable"
+#define ERR_UNDECLARED_FUNCTION "Undeclared function"
+#define ERR_UNDECLARED_PROCEDURE "Undeclared procedure"
+#define ERR_DUPLICATE_IDENT "Error duplicate ident"
+#define ERR_TYPE_INCONSISTENCY "Error type inconsistency"
+#define ERR_PARAMETERS_ARGUMENTS_INCONSISTENCY "parameters arguments inconsistency"
 
 void error(ErrorCode err, int lineNo, int colNo);
 void missingToken(TokenType tokenType, int lineNo, int colNo);

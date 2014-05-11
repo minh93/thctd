@@ -417,7 +417,6 @@ Type* compileLValue(void) {
   eat(TK_IDENT);
   // check if the identifier is a function identifier, or a variable identifier, or a parameter  
   var = checkDeclaredLValueIdent(currentToken->string);
-
   switch (var->kind) {
   case OBJ_VARIABLE:
     if (var->varAttrs->type->typeClass == TP_ARRAY) {
@@ -435,8 +434,6 @@ Type* compileLValue(void) {
   default: 
     error(ERR_INVALID_LVALUE,currentToken->lineNo, currentToken->colNo);
   }
-
-
   return varType;
 }
 
