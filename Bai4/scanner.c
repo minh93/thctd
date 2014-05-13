@@ -6,6 +6,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
+
 #include "reader.h"
 #include "charcode.h"
 #include "token.h"
@@ -43,24 +45,24 @@ void skipComment() {
     readChar();
   }
   if (state != 2) 
-    error(ERR_ENDOFCOMMENT, lineNo, colNo);
+    error(ERR_END_OF_COMMENT, lineNo, colNo);
 }
 
 Token* readIdentKeyword(void) {
   Token *token = makeToken(TK_NONE, lineNo, colNo);
   int count = 1;
 
-  token->string[0] = (char)currentChar;
+  token->string[0] = toupper((char)currentChar);
   readChar();
 
   while ((currentChar != EOF) && 
 	 ((charCodes[currentChar] == CHAR_LETTER) || (charCodes[currentChar] == CHAR_DIGIT))) {
-    if (count <= MAX_IDENT_LEN) token->string[count++] = (char)currentChar;
+    if (count <= MAX_IDENT_LEN) token->string[count++] = toupper((char)currentChar);
     readChar();
   }
 
   if (count > MAX_IDENT_LEN) {
-    error(ERR_IDENTTOOLONG, token->lineNo, token->colNo);
+    error(ERR_IDENT_TOO_LONG, token->lineNo, token->colNo);
     return token;
   }
 
@@ -76,7 +78,7 @@ Token* readNumber(void) {
   Token *token = makeToken(TK_NUMBER, lineNo, colNo);
   int count = 0;
 
-  while((currentChar != EOF) && (charCodes[currentChar] == CHAR_DIGIT)){
+  while ((currentChar != EOF) && (charCodes[currentChar] == CHAR_DIGIT)) {
     token->string[count++] = (char)currentChar;
     readChar();
   }
@@ -89,25 +91,30 @@ Token* readNumber(void) {
 Token* readConstChar(void) {
   Token *token = makeToken(TK_CHAR, lineNo, colNo);
   readChar();
-  int i = 0;
-  char *str = token->string;
-  int end_const = 0;
-  while(i < MAX_IDENT_LEN && !end_const){
-    if(charCodes[currentChar] == CHAR_SINGLEQUOTE){
-      readChar();
-      if(charCodes[currentChar] == CHAR_SINGLEQUOTE){
-	str[i++] = currentChar;
-	readChar();
-      }else{
-	end_const = 1;
-      }
-    }else{
-      str[i++] = currentChar;
-      readChar();
-    }
+  if (currentChar == EOF) {
+    token->tokenType = TK_NONE;
+    error(ERR_INVALID_CONSTANT_CHAR, token->lineNo, token->colNo);
+    return token;
   }
-  str[i] = '\0';
-  return token;
+    
+  token->string[0] = currentChar;
+  token->string[1] = '\0';
+
+  readChar();
+  if (currentChar == EOF) {
+    token->tokenType = TK_NONE;
+    error(ERR_INVALID_CONSTANT_CHAR, token->lineNo, token->colNo);
+    return token;
+  }
+
+  if (charCodes[currentChar] == CHAR_SINGLEQUOTE) {
+    readChar();
+    return token;
+  } else {
+    token->tokenType = TK_NONE;
+    error(ERR_INVALID_CONSTANT_CHAR, token->lineNo, token->colNo);
+    return token;
+  }
 }
 
 Token* getToken(void) {
@@ -166,7 +173,7 @@ Token* getToken(void) {
       return makeToken(SB_NEQ, ln, cn);
     }else{
       token = makeToken(TK_NONE, ln, cn);
-      error(ERR_INVALIDSYMBOL, ln, cn);
+      error(ERR_INVALID_SYMBOL, ln, cn);
       return token;
     }
   case CHAR_COMMA:
@@ -220,7 +227,7 @@ Token* getToken(void) {
     return token;
   default:
     token = makeToken(TK_NONE, lineNo, colNo);
-    error(ERR_INVALIDSYMBOL, lineNo, colNo);
+    error(ERR_INVALID_SYMBOL, lineNo, colNo);
     readChar(); 
     return token;
   }

@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "symtab.h"
+#include "error.h"
 
 void freeObject(Object* obj);
 void freeScope(Scope* scope);
@@ -237,25 +238,23 @@ void freeObjectList(ObjectNode *objList) {
   // TODO
   ObjectNode* list = objList;
 
-  while (list != NULL) 
-    {
-      ObjectNode* node = list;
-      list = list->next;
-      freeObject(node->object);
-      free(node);
-    }
+  while (list != NULL) {
+    ObjectNode* node = list;
+    list = list->next;
+    freeObject(node->object);
+    free(node);
+  }
 }
 
 void freeReferenceList(ObjectNode *objList) {
   // TODO
   ObjectNode* list = objList;
 
-  while (list != NULL) 
-    {
-      ObjectNode* node = list;
-      list = list->next;
-      free(node);
-    }
+  while (list != NULL) {
+    ObjectNode* node = list;
+    list = list->next;
+    free(node);
+  }
 }
 
 void addObject(ObjectNode **objList, Object* obj) {
@@ -273,13 +272,11 @@ void addObject(ObjectNode **objList, Object* obj) {
 }
 
 Object* findObject(ObjectNode *objList, char *name) {
-  // TODO
-  while (objList != NULL) 
-    {
-      if (strcmp(objList->object->name, name) == 0) 
-	return objList->object;
-      else objList = objList->next;
-    }
+  while (objList != NULL) {
+    if (strcmp(objList->object->name, name) == 0) 
+      return objList->object;
+    else objList = objList->next;
+  }
   return NULL;
 }
 

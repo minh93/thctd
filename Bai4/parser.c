@@ -626,30 +626,41 @@ Type* compileExpression(void) {
 }
 
 Type* compileExpression2(void) {
-  Type* type;
+  Type* type1;
+  Type* type2;
 
-  type = compileTerm();
-  compileExpression3();
-
-  return type;
+  type1 = compileTerm();
+  type2 = compileExpression3();
+  if (type2 == NULL) return type1;
+  else {
+    checkTypeEquality(type1,type2);
+    return type1;
+  }
 }
 
 
-void compileExpression3(void) {
-  Type* type;
+Type* compileExpression3(void) {
+  Type* type1;
+  Type* type2;
 
   switch (lookAhead->tokenType) {
   case SB_PLUS:
     eat(SB_PLUS);
-    type = compileTerm();
-    checkIntType(type);
-    compileExpression3();
+    type1 = compileTerm();
+    checkIntType(type1);
+    type2 = compileExpression3();
+    if (type2 != NULL)
+      checkIntType(type2);
+    return type1;
     break;
   case SB_MINUS:
     eat(SB_MINUS);
-    type = compileTerm();
-    checkIntType(type);
-    compileExpression3();
+    type1 = compileTerm();
+    checkIntType(type1);
+    type2 = compileExpression3();
+    if (type2 != NULL)
+      checkIntType(type2);
+    return type1;
     break;
     // check the FOLLOW set
   case KW_TO:
@@ -667,36 +678,43 @@ void compileExpression3(void) {
   case KW_END:
   case KW_ELSE:
   case KW_THEN:
+    return NULL;
     break;
   default:
     error(ERR_INVALID_EXPRESSION, lookAhead->lineNo, lookAhead->colNo);
   }
+  return NULL;
 }
 
 Type* compileTerm(void) {
+  // DONE: check type of Term2
   Type* type;
 
   type = compileFactor();
-  compileTerm2();
+  type = compileTerm2(type);
 
   return type;
 }
 
-void compileTerm2(void) {
-  Type* type;
+Type* compileTerm2(Type* argType1) { //
+  // DONE: check type of term2
+  Type* argType2;
+  Type* resultType;
 
   switch (lookAhead->tokenType) {
   case SB_TIMES:
     eat(SB_TIMES);
-    type = compileFactor();
-    checkIntType(type);
-    compileTerm2();
+    checkIntType(argType1);
+    argType2 = compileFactor();
+    checkIntType(argType2);
+    resultType = compileTerm2(argType1);
     break;
   case SB_SLASH:
     eat(SB_SLASH);
-    type = compileFactor();
-    checkIntType(type);
-    compileTerm2();
+    checkIntType(argType1);
+    argType2 = compileFactor();
+    checkIntType(argType2);
+    resultType = compileTerm2(argType1);
     break;
     // check the FOLLOW set
   case SB_PLUS:
@@ -716,10 +734,12 @@ void compileTerm2(void) {
   case KW_END:
   case KW_ELSE:
   case KW_THEN:
+    resultType = argType1;
     break;
   default:
     error(ERR_INVALID_TERM, lookAhead->lineNo, lookAhead->colNo);
   }
+  return resultType;
 }
 
 Type* compileFactor(void) {
