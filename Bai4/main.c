@@ -10,7 +10,6 @@
 #include "reader.h"
 #include "parser.h"
 
-extern SymTab* symtab;
 /******************************************************************/
 
 int main(int argc, char *argv[]) {

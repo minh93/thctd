@@ -8,17 +8,19 @@
 #include <stdlib.h>
 #include "error.h"
 
-#define NUM_OF_ERRORS 29
+#define NUM_OF_ERRORS 32
 
 struct ErrorMessage {
   ErrorCode errorCode;
   char *message;
 };
 
-struct ErrorMessage errors[29] = {
+struct ErrorMessage errors[NUM_OF_ERRORS] = {
   {ERR_END_OF_COMMENT, "End of comment expected."},
   {ERR_IDENT_TOO_LONG, "Identifier too long."},
   {ERR_INVALID_CONSTANT_CHAR, "Invalid char constant."},
+  {ERR_INVALID_NUMBER, "Invalid number"},
+  {ERR_INVALID_STRING, "Invalid string"},
   {ERR_INVALID_SYMBOL, "Invalid symbol."},
   {ERR_INVALID_IDENT, "An identifier expected."},
   {ERR_INVALID_CONSTANT, "A constant expected."},
@@ -38,6 +40,7 @@ struct ErrorMessage errors[29] = {
   {ERR_UNDECLARED_IDENT, "Undeclared identifier."},
   {ERR_UNDECLARED_CONSTANT, "Undeclared constant."},
   {ERR_UNDECLARED_INT_CONSTANT, "Undeclared integer constant."},
+  {ERR_UNDECLARED_FLOAT_CONSTANT, "Undeclared float constant."},
   {ERR_UNDECLARED_TYPE, "Undeclared type."},
   {ERR_UNDECLARED_VARIABLE, "Undeclared variable."},
   {ERR_UNDECLARED_FUNCTION, "Undeclared function."},

@@ -110,39 +110,46 @@ Object* checkDeclaredLValueIdent(char* name) {
 }
 
 
-void checkIntType(Type* type) {
-  // TODO
-  if ((type != NULL) && (type->typeClass == TP_INT))
+void checkNumberType(Type* type) {
+  // DONE
+  if ((type != NULL) && ((type->typeClass == TP_INT) || (type->typeClass == TP_FLOAT)))
     return;
   else error(ERR_TYPE_INCONSISTENCY, currentToken->lineNo, currentToken->colNo);
 }
 
 void checkCharType(Type* type) {
-  // TODO
+  // DONE
   if ((type != NULL) && (type->typeClass == TP_CHAR))
     return;
   else error(ERR_TYPE_INCONSISTENCY, currentToken->lineNo, currentToken->colNo);
 }
 
+void checkStringType(Type* type) {
+  // DONE
+  if ((type != NULL) && (type->typeClass == TP_STRING))
+    return;
+  else error(ERR_TYPE_INCONSISTENCY, currentToken->lineNo, currentToken->colNo);
+}
+
 void checkBasicType(Type* type) {
-  // TODO
-  if ((type != NULL) && ((type->typeClass == TP_INT) || (type->typeClass == TP_CHAR)))
+  // DONE
+  if ((type != NULL) && 
+    ((type->typeClass == TP_INT) || (type->typeClass == TP_FLOAT) || (type->typeClass == TP_CHAR)))
     return;
   else error(ERR_TYPE_INCONSISTENCY, currentToken->lineNo, currentToken->colNo);
 }
 
 void checkArrayType(Type* type) {
-  // TODO
- if ((type != NULL) && (type->typeClass == TP_ARRAY))
+  // DONE
+  if ((type != NULL) && (type->typeClass == TP_ARRAY))
     return;
   else error(ERR_TYPE_INCONSISTENCY, currentToken->lineNo, currentToken->colNo);
 }
 
 void checkTypeEquality(Type* type1, Type* type2) {
-  // TODO
+  // DONE
   if (compareType(type1, type2) == 0)
     error(ERR_TYPE_INCONSISTENCY, currentToken->lineNo, currentToken->colNo);
-
 }
 
 

@@ -1,0 +1,16 @@
+PROGRAM  TEST;  (* TEST *)
+CONST MAX = 10;
+TYPE T = INTEGER;
+VAR  A : ARRAY(. 10 .) OF T;
+     N : INTEGER;
+     CH : CHAR;
+     F : FLOAT;
+BEGIN
+   CH := 'y';
+   F := 3.14159;
+   WHILE CH = 'y' DO
+     BEGIN
+       
+      
+     END
+END.  (* Example 4 *)
