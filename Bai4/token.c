@@ -19,6 +19,7 @@ struct {
   {"INTEGER", KW_INTEGER},
   {"FLOAT", KW_FLOAT},
   {"CHAR", KW_CHAR},
+  {"STRING", KW_STRING},
   {"ARRAY", KW_ARRAY},
   {"OF", KW_OF},
   {"FUNCTION", KW_FUNCTION},
@@ -75,6 +76,7 @@ char *tokenToString(TokenType tokenType) {
   case KW_INTEGER: return "keyword INTEGER";
   case KW_FLOAT: return "keyword FLOAT";
   case KW_CHAR: return "keyword CHAR";
+  case KW_STRING: return "keyword STRING";
   case KW_ARRAY: return "keyword ARRAY";
   case KW_OF: return "keyword OF";
   case KW_FUNCTION: return "keyword FUNCTION";

@@ -117,6 +117,20 @@ void checkNumberType(Type* type) {
   else error(ERR_TYPE_INCONSISTENCY, currentToken->lineNo, currentToken->colNo);
 }
 
+void checkIntType(Type* type) {
+  // DONE
+  if ((type != NULL) && (type->typeClass == TP_INT))
+    return;
+  else error(ERR_TYPE_INCONSISTENCY, currentToken->lineNo, currentToken->colNo);
+}
+
+void checkFloatType(Type* type) {
+  // DONE
+  if ((type != NULL) && (type->typeClass == TP_FLOAT))
+    return;
+  else error(ERR_TYPE_INCONSISTENCY, currentToken->lineNo, currentToken->colNo);
+}
+
 void checkCharType(Type* type) {
   // DONE
   if ((type != NULL) && (type->typeClass == TP_CHAR))
@@ -134,7 +148,8 @@ void checkStringType(Type* type) {
 void checkBasicType(Type* type) {
   // DONE
   if ((type != NULL) && 
-    ((type->typeClass == TP_INT) || (type->typeClass == TP_FLOAT) || (type->typeClass == TP_CHAR)))
+    ((type->typeClass == TP_INT) || (type->typeClass == TP_FLOAT) 
+      || (type->typeClass == TP_CHAR) || (type->typeClass == TP_STRING)))
     return;
   else error(ERR_TYPE_INCONSISTENCY, currentToken->lineNo, currentToken->colNo);
 }

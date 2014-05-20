@@ -5,6 +5,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "reader.h"
 #include "scanner.h"
@@ -115,10 +116,9 @@ void compileBlock3(void) {
 
     do {
       eat(TK_IDENT);
-      
+
       checkFreshIdent(currentToken->string);
       varObj = createVariableObject(currentToken->string);
-
       eat(SB_COLON);
       varType = compileType();
       
@@ -206,7 +206,8 @@ ConstantValue* compileUnsignedConstant(void) {
   switch (lookAhead->tokenType) {
   case TK_NUMBER:
     eat(TK_NUMBER);
-    if(currentToken->value == atoi(currentToken->string))
+    if(currentToken->value == atoi(currentToken->string) 
+      && currentToken->string[strlen(currentToken->string) - 2] != '.')
      constValue = makeIntConstant(currentToken->value);
     else constValue = makeFloatConstant(atof(currentToken->string));
     break;
@@ -268,7 +269,8 @@ ConstantValue* compileConstant2(void) {
   switch (lookAhead->tokenType) {
   case TK_NUMBER:
     eat(TK_NUMBER);
-    if(currentToken->value == atoi(currentToken->string))
+    if(currentToken->value == atoi(currentToken->string) 
+      && currentToken->string[strlen(currentToken->string) - 2] != '.')
       constValue = makeIntConstant(currentToken->value);
     else constValue = makeFloatConstant(currentToken->value);
     break;
@@ -306,11 +308,23 @@ Type* compileType(void) {
     eat(KW_CHAR); 
     type = makeCharType();
     break;
+  case KW_STRING: 
+    eat(KW_STRING); 
+    type = makeStringType();
+    break;
   case KW_ARRAY:
     eat(KW_ARRAY);
     eat(SB_LSEL);
-    eat(TK_NUMBER);
 
+    eat(TK_NUMBER);
+    
+    Type* temptype;
+    if(currentToken->value == atoi(currentToken->string) 
+      && currentToken->string[strlen(currentToken->string) - 2] != '.')
+      temptype = intType;
+    else temptype = floatType;
+    checkIntType(temptype);
+	
     arraySize = currentToken->value;
 
     eat(SB_RSEL);
@@ -345,6 +359,10 @@ Type* compileBasicType(void) {
   case KW_CHAR: 
     eat(KW_CHAR); 
     type = makeCharType();
+    break;
+  case KW_STRING: 
+    eat(KW_STRING); 
+    type = makeStringType();
     break;
   default:
     error(ERR_INVALID_BASICTYPE, lookAhead->lineNo, lookAhead->colNo);
@@ -794,7 +812,8 @@ Type* compileFactor(void) {
   switch (lookAhead->tokenType) {
   case TK_NUMBER:
     eat(TK_NUMBER);
-    if(currentToken->value == atoi(currentToken->string))
+    if(currentToken->value == atoi(currentToken->string) 
+      && currentToken->string[strlen(currentToken->string) - 2] != '.')
       type = intType;
     else type = floatType;
     break;
@@ -856,6 +875,7 @@ Type* compileFactor(void) {
   return type;
 }
 
+extern int lineNo;
 Type* compileIndexes(Type* arrayType) {
   // DONE: parse a sequence of indexes, check the consistency to the arrayType, and return the element type
   Type* type;
@@ -863,7 +883,7 @@ Type* compileIndexes(Type* arrayType) {
   while (lookAhead->tokenType == SB_LSEL) {
     eat(SB_LSEL);
     type = compileExpression();
-    checkNumberType(type);
+    checkIntType(type);
     checkArrayType(arrayType);
 
     arrayType = arrayType->elementType;

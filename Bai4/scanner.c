@@ -343,6 +343,7 @@ void printToken(Token *token) {
   case KW_INTEGER: printf("KW_INTEGER\n"); break;
   case KW_FLOAT: printf("KW_FLOAT\n"); break;
   case KW_CHAR: printf("KW_CHAR\n"); break;
+  case KW_STRING: printf("KW_STRING\n"); break;
   case KW_ARRAY: printf("KW_ARRAY\n"); break;
   case KW_OF: printf("KW_OF\n"); break;
   case KW_FUNCTION: printf("KW_FUNCTION\n"); break;
